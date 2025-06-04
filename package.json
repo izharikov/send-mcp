@@ -1,0 +1,33 @@
+{
+  "name": "send-mcp",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "dev": "bun --watch src/sse.ts"
+  },
+  "keywords": [
+    "mcp",
+    "send",
+    "sitecore",
+    "mail",
+    "smtp"
+  ],
+  "repository": {
+    "url": "https://github.com/izharikov/send-mcp"
+  },
+  "author": "Igor Zharikov",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.3",
+    "prettier": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.29",
+    "@types/nodemailer": "^6.4.17"
+  }
+}
