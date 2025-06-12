@@ -1,23 +1,23 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { SendClient, ApiConfig, ApiResponseError } from "send-client";
 
-export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transactoinalConfog: { campaignId: string | undefined }) => void = (server, config, transactoinalConfog) => {
+export const addApiTools: (server: FastMCP, config: Partial<ApiConfig>, transactoinalConfog: { campaignId: string | undefined }) => void = (server, config, transactoinalConfog) => {
   if (!config.apiKey) {
     return;
   }
 
   const client = new SendClient({ apiKey: config.apiKey!, baseUrl: config.baseUrl });
 
-  server.tool(
-    "get_lists",
-    "Get all available mailing lists",
-    {},
-    {
+  server.addTool({
+    name: "get_lists",
+    description: "Get all available mailing lists",
+    annotations: {
       title: "Get all available mailing lists",
       openWorldHint: true,
     },
-    async () => {
+    execute: async (_, { log }) => {
+      log.info("Get all available mailing lists");
       const lists = await client.lists.getAll();
       const result = lists.MailingLists.map(x => `- '${x.Name}', status: '${x.StatusValue}', (id: '${x.ID}')`);
       return {
@@ -26,19 +26,19 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
         ]
       }
     }
-  );
+  });
 
-  server.tool(
-    "get_single_list",
-    "Get a single mailing list details: total count, status, etc",
-    {
+  server.addTool({
+    name: "get_single_list",
+    description: "Get a single mailing list details: total count, status, etc",
+    parameters: z.object({
       listId: z.string().uuid().describe("Id of the mailing list")
-    },
-    {
+    }),
+    annotations: {
       title: "Get a single mailing list",
       openWorldHint: true,
     },
-    async ({ listId }) => {
+    execute: async ({ listId }) => {
       const listResponse = await client.lists.getById(listId);
       const list = listResponse;
       type Keys = keyof typeof list;
@@ -49,19 +49,19 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
         ]
       }
     }
-  )
+  });
 
-  server.tool(
-    "get_subscribers",
-    "Get subscribers of a mailing list",
-    {
+  server.addTool({
+    name: "get_subscribers",
+    description: "Get subscribers of a mailing list",
+    parameters: z.object({
       listId: z.string().uuid().describe("Id of the mailing list")
-    },
-    {
+    }),
+    annotations: {
       title: "Get subscribers of a mailing list",
       openWorldHint: true,
     },
-    async ({ listId }) => {
+    execute: async ({ listId }) => {
       const response = await client.subscribers.fromList(listId);
       const result = response.Subscribers.map(x => `- '${x.Email}', Name: '${x.Name}', Tags: [${x.Tags.join(", ")}]`);
       return {
@@ -69,21 +69,21 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
           { type: "text", text: result.join("\n") }
         ]
       }
-    }
-  )
+    },
+  });
 
-  server.tool(
-    "get_subscriber_by_email",
-    "Get subscriber by email",
-    {
+  server.addTool({
+    name: "get_subscriber_by_email",
+    description: "Get subscriber by email",
+    parameters: z.object({
       listId: z.string().uuid().describe("Id of the mailing list"),
       email: z.string().email().describe("Email of the subscriber")
-    },
-    {
+    }),
+    annotations: {
       title: "Get subscriber by email",
       openWorldHint: true,
     },
-    async ({ listId, email }) => {
+    execute: async ({ listId, email }) => {
       try {
         const response = await client.subscribers.findByEmail(listId, email);
         type Keys = keyof typeof response;
@@ -101,23 +101,23 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
           ]
         }
       }
-    }
-  );
+    },
+  });
 
-  server.tool(
-    "add_subscriber",
-    "Add subscriber to a mailing list",
-    {
+  server.addTool({
+    name: "add_subscriber",
+    description: "Add subscriber to a mailing list",
+    parameters: z.object({
       listId: z.string().uuid().describe("Id of the mailing list"),
       email: z.string().email().describe("Email of the subscriber"),
       name: z.string().optional().describe("Name of the subscriber"),
       tags: z.array(z.string()).optional().describe("Tags of the subscriber")
-    },
-    {
+    }),
+    annotations: {
       title: "Add subscriber to a mailing list",
       openWorldHint: true,
     },
-    async ({ listId, email, name, tags }) => {
+    execute: async ({ listId, email, name, tags }) => {
       try {
         const response = await client.subscribers.add(listId, { Email: email, Name: name, Tags: tags });
         return {
@@ -134,20 +134,20 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
         }
       }
     }
-  );
+  });
 
-  server.tool(
-    "unsubscribe_subscriber",
-    "Unsubscribe subscriber from a mailing list",
-    {
+  server.addTool({
+    name: "unsubscribe_subscriber",
+    description: "Unsubscribe subscriber from a mailing list",
+    parameters: z.object({
       listId: z.string().uuid().describe("Id of the mailing list"),
       email: z.string().email().describe("Email of the subscriber")
-    },
-    {
+    }),
+    annotations: {
       title: "Unsubscribe subscriber from a mailing list",
       openWorldHint: true,
     },
-    async ({ listId, email }) => {
+    execute: async ({ listId, email }) => {
       try {
         await client.subscribers.unsubscribe(listId, email);
         return {
@@ -164,22 +164,22 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
         }
       }
     }
-  );
+  });
 
   if (transactoinalConfog.campaignId) {
-    server.tool(
-      "send_transactional_email",
-      "Send an email using transactional email service",
-      {
+    server.addTool({
+      name: "send_transactional_email",
+      description: "Send an email using transactional email service",
+      parameters: z.object({
         to: z.string().email().describe("Email of the recipient"),
         subject: z.string().describe("Subject of the email"),
         body: z.string().describe("HTML body of the email"),
-      },
-      {
+      }),
+      annotations: {
         title: "Send an email using transactional email service",
         openWorldHint: true,
       },
-      async ({ to, subject, body }) => {
+      execute: async ({ to, subject, body }) => {
         try {
           const result = await client.transactional.sendEmail({
             Subject: subject,
@@ -213,6 +213,6 @@ export const addApiTools: (server: McpServer, config: Partial<ApiConfig>, transa
           }
         }
       }
-    );
+    });
   }
 }

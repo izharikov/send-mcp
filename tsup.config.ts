@@ -2,8 +2,8 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
   {
-    entry: ['src/index.ts'],   // CLI entry
-    format: ['esm', 'cjs'],
+    entry: ['src/index.ts'],
+    format: ['esm'],
     outDir: 'dist',
     dts: true,
     sourcemap: true,
@@ -11,8 +11,8 @@ export default defineConfig([
     skipNodeModulesBundle: true,
   },
   {
-    entry: ['src/cli.ts'],   // CLI entry
-    format: ['esm', 'cjs'],
+    entry: ['src/cli.ts'],
+    format: ['esm'],
     outDir: 'dist/cli',
     clean: false,
     dts: false,

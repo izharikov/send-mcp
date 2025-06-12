@@ -1,27 +1,27 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { createClient } from "@/lib/smtp";
 import { SmtpConfig } from "@/lib/config";
 
-export const addSmptTools: (server: McpServer, config: SmtpConfig) => void = (server, config) => {
+export const addSmptTools: (server: FastMCP, config: SmtpConfig) => void = (server, config) => {
   if (!validateSmtpConfig(config)) {
     console.error("SMTP configuration is invalid. Please check your environment variables.");
     return false;
   }
   const client = createClient(config);
-  server.tool(
-    "send_smtp_email",
-    "Send an email using SMTP",
-    {
+  server.addTool({
+    name: "send_smtp_email",
+    description: "Send an email using SMTP",
+    parameters: z.object({
       to: z.string().email().describe("Email address to send the email to"),
       subject: z.string().describe("Subject of the email"),
       body: z.string().describe("HTML body of the email"),
-    },
-    {
+    }),
+    annotations: {
       title: "Send SMTP Email",
       openWorldHint: true,
     },
-    async ({ to, subject, body }) => {
+    execute: async ({ to, subject, body }) => {
       const res = await client.sendMail({
         from: config.from,
         to,
@@ -31,7 +31,8 @@ export const addSmptTools: (server: McpServer, config: SmtpConfig) => void = (se
       return {
         content: [{ type: "text", text: res.accepted.length > 0 ? "Email sent successfully." : "Email sending failed." }]
       }
-    });
+    }
+  });
   return true;
 }
 
