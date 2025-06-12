@@ -16,8 +16,7 @@ export const addApiTools: (server: FastMCP, config: Partial<ApiConfig>, transact
       title: "Get all available mailing lists",
       openWorldHint: true,
     },
-    execute: async (_, { log }) => {
-      log.info("Get all available mailing lists");
+    execute: async () => {
       const lists = await client.lists.getAll();
       const result = lists.MailingLists.map(x => `- '${x.Name}', status: '${x.StatusValue}', (id: '${x.ID}')`);
       return {

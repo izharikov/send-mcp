@@ -1,15 +1,16 @@
 {
   "name": "send-mcp",
-  "version": "0.0.3",
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "version": "0.0.4",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsup",
-    "dev": "bun --watch src/cli.ts sse --port 3000",
-    "stdio": "bun src/cli.ts stdio",
-    "sse": "bun src/cli.ts sse --port 3000",
-    "help": "bun src/cli.ts sse --help"
+    "dev": "tsx watch ./src/cli.ts sse --port 3000",
+    "stdio": "tsx src/cli.ts stdio",
+    "sse": "tsx src/cli.ts sse --port 3000",
+    "help": "tsx src/cli.ts sse --help"
   },
   "keywords": [
     "mcp",
@@ -22,7 +23,7 @@
     "url": "https://github.com/izharikov/send-mcp"
   },
   "bin": {
-    "send-mcp": "dist/cli/cli.mjs"
+    "send-mcp": "dist/cli/cli.js"
   },
   "author": "Igor Zharikov",
   "license": "MIT",
@@ -36,10 +37,10 @@
     "send-client": "^0.1.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.2",
     "@types/node": "^22.15.29",
     "@types/nodemailer": "^6.4.17",
     "tsup": "^8.1.0",
+    "tsx": "^4.20.2",
     "typescript": "^5.8.3"
   }
 }
