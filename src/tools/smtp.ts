@@ -36,5 +36,5 @@ export const addSmptTools: (server: McpServer, config: SmtpConfig) => void = (se
 }
 
 const validateSmtpConfig = (config: SmtpConfig) => {
-  return config.host && config.auth.user && config.auth.pass && config.from;
+  return config.enabled && config.host && config.auth.user && config.auth.pass && config.from;
 }
