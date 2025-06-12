@@ -1,8 +1,9 @@
 const smtpPort = process.env.SMTP_PORT;
 
-export type SmtpConfig = typeof config.smtp;
+export type SmtpConfig = ReturnType<typeof loadConfiguration>['smtp'];
+export type Config = ReturnType<typeof loadConfiguration>;
 
-export const config = {
+export const loadConfiguration = () => ({
   smtp: {
     from: process.env.SMTP_FROM,
     host: process.env.SMTP_HOST,
@@ -15,6 +16,9 @@ export const config = {
   },
   api: {
     url: process.env.API_URL,
-    key: process.env.API_KEY,
+    apiKey: process.env.API_KEY,
   },
-};
+  transactionalEmails: {
+    campaignId: process.env.TRANSACTIONAL_EMAILS_CAMPAIGN_ID,
+  }
+});

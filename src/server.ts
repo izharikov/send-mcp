@@ -1,13 +1,13 @@
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { addTools } from "./tools";
-import { version } from '@/package.json';
+import { version } from '../package.json';
+import { Config } from "@/lib/config";
 
-export const getServer = () => {
+export const getServer = (config: Config) => {
   const server = new McpServer({
     name: "Sitecore Send SMTP Server",
     version,
   });
-  addTools(server);
+  addTools(server, config);
   return server;
 }

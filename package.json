@@ -1,9 +1,15 @@
 {
   "name": "send-mcp",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "bun --watch src/sse.ts"
+    "build": "tsup",
+    "dev": "bun --watch src/cli.ts sse --port 3000",
+    "stdio": "bun src/cli.ts stdio",
+    "sse": "bun src/cli.ts sse --port 3000",
+    "help": "bun src/cli.ts sse --help"
   },
   "keywords": [
     "mcp",
@@ -15,19 +21,26 @@
   "repository": {
     "url": "https://github.com/izharikov/send-mcp"
   },
+  "bin": {
+    "send-mcp": "dist/cli/cli.js"
+  },
   "author": "Igor Zharikov",
   "license": "MIT",
   "description": "",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
+    "commander": "^14.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "nodemailer": "^7.0.3",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "send-client": "^0.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.29",
-    "@types/nodemailer": "^6.4.17"
+    "@types/nodemailer": "^6.4.17",
+    "tsup": "^8.1.0",
+    "typescript": "^5.8.3"
   }
 }
