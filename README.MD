@@ -1,18 +1,24 @@
 # Sitecore Send MCP Server (Unofficial)
 
+[![NPM Version](https://img.shields.io/npm/v/send-mcp)](https://www.npmjs.com/package/send-mcp) [![smithery badge](https://smithery.ai/badge/@izharikov/send-mcp)](https://smithery.ai/server/@izharikov/send-mcp)
+
+<a href="https://glama.ai/mcp/servers/@izharikov/send-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@izharikov/send-mcp/badge" />
+</a>
+
 ## Tools
 
 ### SMTP
 
-- [x] `send_smtp_email` - Send an email using SMTP
+- :white_check_mark: `send_smtp_email` - Send an email using SMTP
 
 ### API
 
-- [x] `get_lists` - get email lists
-- [x] `get_list_members` - get email list members
-- [x] `add_list_member` - add email list member
-- [x] `remove_list_member` - remove email list member
-- [x] `send_transactional_email` - Send an email using transactional email service
+- :white_check_mark: `get_lists` - get email lists
+- :white_check_mark: `get_list_members` - get email list members
+- :white_check_mark: `add_list_member` - add email list member
+- :white_check_mark: `remove_list_member` - remove email list member
+- :white_check_mark: `send_transactional_email` - Send an email using transactional email service
 
 ## Usage
 
