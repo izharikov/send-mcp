@@ -33,7 +33,7 @@ startCommand:
         description: SMTP password
   exampleConfig:
     apiKey: your-api-key
-    transactionalEmailsCampaignId: 3639723f-bcd0-4468-8204-287c4dede544
+    transactionalEmailsCampaignId: your-transactional-email-campaign-id
     smtpEnabled: true
     smtpFrom: no-reply@example.com
     smtpUser: smtp-user

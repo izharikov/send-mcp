@@ -55,7 +55,7 @@ npx send-mcp sse --port 3000
 # To Use API
 API_KEY=[Sitecore Send API Key]
 # To enable send_transactional_email
-TRANSACTIONAL_EMAILS_CAMPAIGN_ID=3639723f-bcd0-4468-8204-287c4dede544
+TRANSACTIONAL_EMAILS_CAMPAIGN_ID=[transactional email campaign id]
 # Enable SMTP
 SMTP_ENABLED=true
 # SMTP
