@@ -1,0 +1,40 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'npx', args: ['tsx', 'src/cli.ts', 'stdio'], env: { API_KEY: config.apiKey, TRANSACTIONAL_EMAILS_CAMPAIGN_ID: config.transactionalEmailsCampaignId || '', SMTP_ENABLED: config.smtpEnabled ? 'true' : 'false', SMTP_FROM: config.smtpFrom || '', SMTP_USER: config.smtpUser || '', SMTP_PASSWORD: config.smtpPassword || '' } })
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - apiKey
+    properties:
+      apiKey:
+        type: string
+        description: Sitecore Send API Key
+      transactionalEmailsCampaignId:
+        type: string
+        description: Campaign ID for transactional emails
+      smtpEnabled:
+        type: boolean
+        default: false
+        description: Enable SMTP sending
+      smtpFrom:
+        type: string
+        description: SMTP from address
+      smtpUser:
+        type: string
+        description: SMTP user
+      smtpPassword:
+        type: string
+        description: SMTP password
+  exampleConfig:
+    apiKey: your-api-key
+    transactionalEmailsCampaignId: your-transactional-email-campaign-id
+    smtpEnabled: true
+    smtpFrom: no-reply@example.com
+    smtpUser: smtp-user
+    smtpPassword: smtp-password
