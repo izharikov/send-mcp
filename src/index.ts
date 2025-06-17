@@ -1,3 +1,3 @@
 export * from './server';
-export * from './sse';
+export * from './http';
 export * from './stdio';

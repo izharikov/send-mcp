@@ -7,10 +7,10 @@
   "type": "module",
   "scripts": {
     "build": "tsup",
-    "dev": "tsx watch ./src/cli.ts sse --port 3000",
+    "dev": "tsx watch ./src/cli.ts http --port 3000",
     "stdio": "tsx src/cli.ts stdio",
-    "sse": "tsx src/cli.ts sse --port 3000",
-    "help": "tsx src/cli.ts sse --help"
+    "http": "tsx src/cli.ts http --port 3000",
+    "help": "tsx src/cli.ts http --help"
   },
   "keywords": [
     "mcp",

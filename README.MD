@@ -49,10 +49,10 @@
 npx send-mcp
 ```
 
-### sse
+### http
 
 ```bash
-npx send-mcp sse --port 3000
+npx send-mcp http --port 3000
 ```
 
 ## Environment variables
